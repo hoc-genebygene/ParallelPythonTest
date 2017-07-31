@@ -17,8 +17,8 @@ for input_fastq_1, input_fastq_2 in input_fastqs:
 	alignment_jobs.append(align_paired_reads.s(input_fastq_1, input_fastq_2, out_bam))
 	aligned_bams.append(out_bam)
 
-group(alignment_jobs)
-result = alignment_jobs.apply_async()
+align_job_batch = group(alignment_jobs)
+result = align_job_batch.apply_async()
 result.join()
 
 # do merge and sort
